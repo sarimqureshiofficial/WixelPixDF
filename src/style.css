@@ -47,8 +47,8 @@ body {
   font-family: 'Outfit', sans-serif;
   background-color: var(--bg-dark);
   color: var(--text-main);
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
 }
 
@@ -72,13 +72,16 @@ body {
 .app-container {
   display: flex;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   position: relative;
 }
 
 /* Sidebar Styling */
 .sidebar {
   width: 280px;
+  height: 100vh;
+  overflow-y: auto;
   background: var(--sidebar-gradient);
   backdrop-filter: var(--glass-blur);
   border-right: 1px solid var(--border-color);
@@ -219,6 +222,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  overflow-x: hidden;
   height: 100vh;
 }
 
