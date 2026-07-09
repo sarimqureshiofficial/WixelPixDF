@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wixel PixDF - Free Local PDF & Image Tools</title>
+  <!-- Google Fonts - Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="/logo.png" alt="Wixel PixDF Logo" class="logo-img">
+          <span class="logo-text">Wixel <span class="logo-highlight">PixDF</span></span>
+        </div>
+        <button class="mobile-toggle" id="mobile-toggle">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+      
+      <nav class="nav-menu">
+        <div class="nav-section-title">Image Utilities</div>
+        <a href="#compress-image" class="nav-item active" data-tool="compress-image">
+          <i data-lucide="minimize-2"></i>
+          <span>Compress Image</span>
+        </a>
+        <a href="#resize-image" class="nav-item" data-tool="resize-image">
+          <i data-lucide="maximize-2"></i>
+          <span>Resize Image</span>
+        </a>
+        <a href="#convert-image" class="nav-item" data-tool="convert-image">
+          <i data-lucide="refresh-cw"></i>
+          <span>Format Converter</span>
+        </a>
+        <a href="#crop-image" class="nav-item" data-tool="crop-image">
+          <i data-lucide="crop"></i>
+          <span>Crop Image</span>
+        </a>
+
+        <div class="nav-section-title">PDF Utilities</div>
+        <a href="#merge-pdf" class="nav-item" data-tool="merge-pdf">
+          <i data-lucide="file-plus-2"></i>
+          <span>Merge PDF</span>
+        </a>
+        <a href="#split-pdf" class="nav-item" data-tool="split-pdf">
+          <i data-lucide="scissors"></i>
+          <span>Split PDF</span>
+        </a>
+        <a href="#images-to-pdf" class="nav-item" data-tool="images-to-pdf">
+          <i data-lucide="file-image"></i>
+          <span>Images to PDF</span>
+        </a>
+        <a href="#rotate-pdf" class="nav-item" data-tool="rotate-pdf">
+          <i data-lucide="rotate-cw"></i>
+          <span>Rotate PDF</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="security-badge">
+          <i data-lucide="shield-check"></i>
+          <span>100% Local & Secure</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content -->
+    <main class="main-content">
+      <header class="app-header">
+        <h1 id="current-tool-title">Compress Image</h1>
+        <p id="current-tool-desc" class="tool-description">Reduce image file size with optimal quality compression.</p>
+      </header>
+
+      <!-- Tool Workspace Panels -->
+      <section class="tool-workspace">
+        
+        <!-- Compress Image Panel -->
+        <div class="tool-panel active" id="panel-compress-image">
+          <div class="tool-grid">
+            <div class="control-card">
+              <h3>Upload Image</h3>
+              <div class="drop-zone" id="drop-zone-compress">
+                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                <p>Drag & drop image here or <span>browse</span></p>
+                <input type="file" id="input-compress" accept="image/png, image/jpeg, image/webp" hidden>
+              </div>
+              <div class="file-info-box hidden" id="info-compress">
+                <span class="file-name" id="name-compress">file.jpg</span>
+                <span class="file-size" id="size-compress">0 KB</span>
+              </div>
+              
+              <div class="settings-group disabled-state" id="settings-compress">
+                <div class="setting-row">
+                  <label for="quality-compress">Compression Quality: <span id="val-quality-compress">80%</span></label>
+                  <input type="range" id="quality-compress" min="10" max="100" value="80">
+                </div>
+                <button class="btn btn-primary" id="btn-compress">
+                  <i data-lucide="sparkles"></i> Compress Image
+                </button>
+              </div>
+            </div>
+            
+            <div class="preview-card empty" id="preview-card-compress">
+              <div class="empty-state">
+                <i data-lucide="image"></i>
+                <p>Upload an image to see preview</p>
+              </div>
+              <div class="preview-content hidden" id="preview-content-compress">
+                <div class="image-comparison">
+                  <div class="image-wrapper">
+                    <h4>Original Preview</h4>
+                    <img id="img-orig-compress" src="" alt="Original">
+                  </div>
+                  <div class="image-wrapper">
+                    <h4>Compressed Preview</h4>
+                    <img id="img-comp-compress" src="" alt="Compressed">
+                  </div>
+                </div>
+                <div class="output-stats">
+                  <div>Size Reduced: <span class="stat-highlight" id="stat-reduction-compress">0%</span></div>
+                  <div>New Size: <span class="stat-highlight" id="stat-new-size-compress">0 KB</span></div>
+                </div>
+                <a class="btn btn-success" id="download-compress" download="compressed_image.jpg">
+                  <i data-lucide="download"></i> Download Image
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resize Image Panel -->
+        <div class="tool-panel" id="panel-resize-image">
+          <div class="tool-grid">
+            <div class="control-card">
+              <h3>Upload Image</h3>
+              <div class="drop-zone" id="drop-zone-resize">
+                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                <p>Drag & drop image here or <span>browse</span></p>
+                <input type="file" id="input-resize" accept="image/png, image/jpeg, image/webp" hidden>
+              </div>
+              <div class="file-info-box hidden" id="info-resize">
+                <span class="file-name" id="name-resize">file.jpg</span>
+                <span class="file-size" id="size-resize">0 KB</span>
+              </div>
+              
+              <div class="settings-group disabled-state" id="settings-resize">
+                <div class="setting-row inline">
+                  <div>
+                    <label for="width-resize">Width (px)</label>
+                    <input type="number" id="width-resize" placeholder="Width">
+                  </div>
+                  <div>
+                    <label for="height-resize">Height (px)</label>
+                    <input type="number" id="height-resize" placeholder="Height">
+                  </div>
+                </div>
+                <div class="setting-row checkbox">
+                  <input type="checkbox" id="aspect-resize" checked>
+                  <label for="aspect-resize">Lock Aspect Ratio</label>
+                </div>
+                <button class="btn btn-primary" id="btn-resize">
+                  <i data-lucide="maximize-2"></i> Resize Image
+                </button>
+              </div>
+            </div>
+            
+            <div class="preview-card empty" id="preview-card-resize">
+              <div class="empty-state">
+                <i data-lucide="image"></i>
+                <p>Upload an image to see preview</p>
+              </div>
+              <div class="preview-content hidden" id="preview-content-resize">
+                <div class="preview-output-box">
+                  <img id="img-out-resize" src="" alt="Resized Image">
+                </div>
+                <a class="btn btn-success" id="download-resize" download="resized_image.jpg">
+                  <i data-lucide="download"></i> Download Image
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Format Converter Panel -->
+        <div class="tool-panel" id="panel-convert-image">
+          <div class="tool-grid">
+            <div class="control-card">
+              <h3>Upload Image</h3>
+              <div class="drop-zone" id="drop-zone-convert">
+                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                <p>Drag & drop image here or <span>browse</span></p>
+                <input type="file" id="input-convert" accept="image/png, image/jpeg, image/webp" hidden>
+              </div>
+              <div class="file-info-box hidden" id="info-convert">
+                <span class="file-name" id="name-convert">file.jpg</span>
+                <span class="file-size" id="size-convert">0 KB</span>
+              </div>
+              
+              <div class="settings-group disabled-state" id="settings-convert">
+                <div class="setting-row">
+                  <label for="format-convert">Convert To</label>
+                  <select id="format-convert">
+                    <option value="image/jpeg">JPEG (.jpg)</option>
+                    <option value="image/png">PNG (.png)</option>
+                    <option value="image/webp">WebP (.webp)</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary" id="btn-convert">
+                  <i data-lucide="refresh-cw"></i> Convert Format
+                </button>
+              </div>
+            </div>
+            
+            <div class="preview-card empty" id="preview-card-convert">
+              <div class="empty-state">
+                <i data-lucide="image"></i>
+                <p>Upload an image to see preview</p>
+              </div>
+              <div class="preview-content hidden" id="preview-content-convert">
+                <div class="preview-output-box">
+                  <img id="img-out-convert" src="" alt="Converted Image">
+                </div>
+                <a class="btn btn-success" id="download-convert" download="converted_image.jpg">
+                  <i data-lucide="download"></i> Download Image
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crop Image Panel -->
+        <div class="tool-panel" id="panel-crop-image">
+          <div class="tool-grid">
+            <div class="control-card">
+              <h3>Upload Image</h3>
+              <div class="drop-zone" id="drop-zone-crop">
+                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                <p>Drag & drop image here or <span>browse</span></p>
+                <input type="file" id="input-crop" accept="image/png, image/jpeg, image/webp" hidden>
+              </div>
+              <div class="file-info-box hidden" id="info-crop">
+                <span class="file-name" id="name-crop">file.jpg</span>
+                <span class="file-size" id="size-crop">0 KB</span>
+              </div>
+              
+              <div class="settings-group disabled-state" id="settings-crop">
+                <div class="crop-info-tips">
+                  <p><i data-lucide="info"></i> Drag selection handles on the preview box to select the crop area.</p>
+                </div>
+                <button class="btn btn-primary" id="btn-crop">
+                  <i data-lucide="crop"></i> Crop Image
+                </button>
+              </div>
+            </div>
+            
+            <div class="preview-card empty" id="preview-card-crop">
+              <div class="empty-state">
+                <i data-lucide="image"></i>
+                <p>Upload an image to crop</p>
+              </div>
+              <div class="preview-content hidden" id="preview-content-crop">
+                <div class="crop-container">
+                  <!-- Visual canvas wrapper for custom cropping overlay -->
+                  <div class="crop-editor-wrapper" id="crop-wrapper">
+                    <img id="img-crop-source" src="" alt="Crop Source">
+                    <div class="crop-box" id="crop-selection-box">
+                      <div class="crop-handle nw"></div>
+                      <div class="crop-handle ne"></div>
+                      <div class="crop-handle sw"></div>
+                      <div class="crop-handle se"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="crop-result hidden" id="crop-result-box">
+                  <h4>Cropped Image Result</h4>
+                  <div class="preview-output-box">
+                    <img id="img-out-crop" src="" alt="Cropped Output">
+                  </div>
+                  <a class="btn btn-success" id="download-crop" download="cropped_image.jpg">
+                    <i data-lucide="download"></i> Download Image
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Merge PDF Panel -->
+        <div class="tool-panel" id="panel-merge-pdf">
+          <div class="full-width-card">
+            <h3>Upload PDF Files</h3>
+            <div class="drop-zone" id="drop-zone-merge">
+              <i data-lucide="upload-cloud" class="upload-icon"></i>
+              <p>Drag & drop multiple PDFs here or <span>browse</span></p>
+              <input type="file" id="input-merge" accept="application/pdf" multiple hidden>
+            </div>
+            
+            <div class="file-list-container hidden" id="list-container-merge">
+              <h4>Selected PDF Files (Drag or click buttons to change order)</h4>
+              <ul class="file-list" id="file-list-merge">
+                <!-- Dynamically filled with li elements -->
+              </ul>
+              <div class="action-bar">
+                <button class="btn btn-primary" id="btn-merge-action">
+                  <i data-lucide="file-plus-2"></i> Merge PDFs
+                </button>
+                <a class="btn btn-success hidden" id="download-merge" download="merged_document.pdf">
+                  <i data-lucide="download"></i> Download Merged PDF
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split PDF Panel -->
+        <div class="tool-panel" id="panel-split-pdf">
+          <div class="tool-grid">
+            <div class="control-card">
+              <h3>Upload PDF File</h3>
+              <div class="drop-zone" id="drop-zone-split">
+                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                <p>Drag & drop PDF here or <span>browse</span></p>
+                <input type="file" id="input-split" accept="application/pdf" hidden>
+              </div>
+              <div class="file-info-box hidden" id="info-split">
+                <span class="file-name" id="name-split">doc.pdf</span>
+                <span class="file-size" id="size-split">0 KB</span>
+              </div>
+              
+              <div class="settings-group disabled-state" id="settings-split">
+                <div class="setting-row">
+                  <label for="split-ranges">Page Ranges (e.g. 1-3, 5, 8-10)</label>
+                  <input type="text" id="split-ranges" placeholder="Enter page ranges">
+                  <div class="helper-text" id="split-page-count-info">This document contains 0 pages.</div>
+                </div>
+                <button class="btn btn-primary" id="btn-split">
+                  <i data-lucide="scissors"></i> Split PDF
+                </button>
+              </div>
+            </div>
+            
+            <div class="preview-card empty" id="preview-card-split">
+              <div class="empty-state">
+                <i data-lucide="file-text"></i>
+                <p>Upload a PDF to view split options</p>
+              </div>
+              <div class="preview-content hidden" id="preview-content-split">
+                <div class="split-outputs" id="split-outputs-list">
+                  <!-- Dynamically filled with split downloads -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Images to PDF Panel -->
+        <div class="tool-panel" id="panel-images-to-pdf">
+          <div class="full-width-card">
+            <h3>Upload Images</h3>
+            <div class="drop-zone" id="drop-zone-img2pdf">
+              <i data-lucide="upload-cloud" class="upload-icon"></i>
+              <p>Drag & drop multiple images (JPG, PNG) here or <span>browse</span></p>
+              <input type="file" id="input-img2pdf" accept="image/png, image/jpeg" multiple hidden>
+            </div>
+            
+            <div class="file-list-container hidden" id="list-container-img2pdf">
+              <div class="pdf-settings-row">
+                <div class="setting-item">
+                  <label for="img2pdf-page-size">Page Size</label>
+                  <select id="img2pdf-page-size">
+                    <option value="a4">A4 (Standard)</option>
+                    <option value="letter">Letter</option>
+                    <option value="fit">Fit Page to Image Size</option>
+                  </select>
+                </div>
+                <div class="setting-item">
+                  <label for="img2pdf-orientation">Orientation</label>
+                  <select id="img2pdf-orientation">
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                  </select>
+                </div>
+                <div class="setting-item">
+                  <label for="img2pdf-margin">Margin</label>
+                  <select id="img2pdf-margin">
+                    <option value="0">No Margin</option>
+                    <option value="20">Small (20px)</option>
+                    <option value="40">Large (40px)</option>
+                  </select>
+                </div>
+              </div>
+
+              <h4>Images List (Drag/reorder)</h4>
+              <ul class="file-list sortable-images" id="image-list-img2pdf">
+                <!-- Dynamically filled with image thumbnails -->
+              </ul>
+              
+              <div class="action-bar">
+                <button class="btn btn-primary" id="btn-img2pdf">
+                  <i data-lucide="file-image"></i> Convert to PDF
+                </button>
+                <a class="btn btn-success hidden" id="download-img2pdf" download="images_document.pdf">
+                  <i data-lucide="download"></i> Download PDF
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rotate PDF Panel -->
+        <div class="tool-panel" id="panel-rotate-pdf">
+          <div class="tool-grid">
+            <div class="control-card">
+              <h3>Upload PDF File</h3>
+              <div class="drop-zone" id="drop-zone-rotate">
+                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                <p>Drag & drop PDF here or <span>browse</span></p>
+                <input type="file" id="input-rotate" accept="application/pdf" hidden>
+              </div>
+              <div class="file-info-box hidden" id="info-rotate">
+                <span class="file-name" id="name-rotate">doc.pdf</span>
+                <span class="file-size" id="size-rotate">0 KB</span>
+              </div>
+              
+              <div class="settings-group disabled-state" id="settings-rotate">
+                <div class="setting-row">
+                  <label for="rotate-angle">Rotation Angle</label>
+                  <select id="rotate-angle">
+                    <option value="90">90° Clockwise</option>
+                    <option value="180">180° Rotate</option>
+                    <option value="270">90° Counter-Clockwise</option>
+                  </select>
+                </div>
+                <div class="setting-row">
+                  <label for="rotate-pages">Pages to Rotate (e.g. 1, 3-5 or leave blank for All)</label>
+                  <input type="text" id="rotate-pages" placeholder="All pages">
+                  <div class="helper-text" id="rotate-page-count-info">This document contains 0 pages.</div>
+                </div>
+                <button class="btn btn-primary" id="btn-rotate">
+                  <i data-lucide="rotate-cw"></i> Rotate PDF Pages
+                </button>
+              </div>
+            </div>
+            
+            <div class="preview-card empty" id="preview-card-rotate">
+              <div class="empty-state">
+                <i data-lucide="file-text"></i>
+                <p>Upload a PDF to apply rotation</p>
+              </div>
+              <div class="preview-content hidden" id="preview-content-rotate">
+                <div class="preview-output-box">
+                  <div class="success-message-box">
+                    <i data-lucide="check-circle" class="success-icon"></i>
+                    <p>PDF Rotated successfully!</p>
+                  </div>
+                </div>
+                <a class="btn btn-success" id="download-rotate" download="rotated_document.pdf">
+                  <i data-lucide="download"></i> Download Rotated PDF
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy Policy Panel -->
+        <div class="tool-panel" id="panel-privacy-policy">
+          <div class="full-width-card policy-card">
+            <h3>Privacy Policy</h3>
+            <p><strong>Last Updated: July 2026</strong></p>
+            <p>At Wixel PixDF, we prioritize the privacy and security of your files above all else. Because our tools operate 100% locally on your computer, your data is handled with the highest standards of safety.</p>
+            
+            <h4>1. Personal Data and File Processing</h4>
+            <p>We do NOT upload, transmit, store, or share your documents (PDFs, images, or graphics) to any remote servers. All file processing, including merging, splitting, compressing, resizing, converting, cropping, and rotating, takes place locally within your browser using JavaScript and HTML5 Canvas APIs. The moment you close the browser tab, all active file memories are cleared.</p>
+
+            <h4>2. Advertising and Third-Party Services</h4>
+            <p>Our website displays advertisements provided by Google AdSense (or AdMob in mobile versions). These networks may use cookies and web beacons to serve advertisements based on your visit history. These cookies do not contain any personal data or documents uploaded by you.</p>
+
+            <h4>3. Local Storage</h4>
+            <p>We may use local storage in your browser to remember user settings, such as theme choice (dark/light mode) or interface configurations. This data never leaves your device.</p>
+
+            <h4>4. Compliance with Google Play Console & Ads Guidelines</h4>
+            <p>Wixel PixDF complies with the Google Play Developer Program policies and major ad network criteria. The app requires zero high-risk device permissions (such as contacts, camera, or file-system modifications) other than simple local file access to fetch and export files you explicitly upload.</p>
+          </div>
+        </div>
+
+        <!-- Terms of Service Panel -->
+        <div class="tool-panel" id="panel-terms-of-service">
+          <div class="full-width-card policy-card">
+            <h3>Terms of Service</h3>
+            <p><strong>Last Updated: July 2026</strong></p>
+            <p>Welcome to Wixel PixDF. By accessing our web application, APK, or desktop application, you agree to comply with the following terms:</p>
+            
+            <h4>1. Permitted Use</h4>
+            <p>You may use Wixel PixDF for personal or commercial document/image processing free of charge. No registration or user account is required.</p>
+
+            <h4>2. Disclaimer of Liability</h4>
+            <p>Wixel PixDF is provided "as is" without warranty of any kind. Since all operations run locally on your device, we are not responsible for any file corruptions, browser crashes, or data loss occurring during processing.</p>
+
+            <h4>3. Intellectual Property</h4>
+            <p>Wixel PixDF, including its code structure, design elements, CSS styling, and logo, is the intellectual property of Wixel PixDF. You may not copy, scrape, or distribute our source code for commercial resale without prior permission.</p>
+          </div>
+        </div>
+
+      </section>
+      
+      <!-- Footer Note -->
+      <footer class="workspace-footer">
+        <div class="footer-legal-links">
+          <a href="#privacy-policy" class="nav-item footer-link-item" data-tool="privacy-policy">Privacy Policy</a>
+          <span class="footer-divider">•</span>
+          <a href="#terms-of-service" class="nav-item footer-link-item" data-tool="terms-of-service">Terms of Service</a>
+        </div>
+        <p>Wixel PixDF © 2026. All conversion calculations are done locally in your browser. Files never upload to any server. Secure, Private & 100% Free.</p>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Main JavaScript App module -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
